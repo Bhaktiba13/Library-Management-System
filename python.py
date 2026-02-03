@@ -10,7 +10,8 @@ while True:
     print("2. View all books")
     print("3. Update book status")
     print("4. Delete a book")
-    print("5. Exit")
+    print("5. Search a book")
+    print("6. Exit")
 
     choice = input("Enter your choice (1-5): ")
 
@@ -67,12 +68,37 @@ while True:
         else:
             print(f"Error: Book '{title}' not found.")
 
-    # 5. Exit 
+
+    # 5. Search
     elif choice == '5':
+        search_term = input("Enter search term (title or author): ").strip()
+        
+        search_term_lower = search_term.lower()
+        results = []
+        
+        for title, details in library.items():
+            book_title = title.lower()
+            book_author = details["author"].lower()
+            
+            title_found = book_title.find(search_term_lower) != -1
+            author_found = book_author.find(search_term_lower) != -1
+            
+            if title_found or author_found:
+                results.append((title, details))
+        # Display
+        if results:
+            print(f"\nFound {len(results)} matching book(s):")
+            for title, details in results:
+                print(f"{title} - {details['author']} - {details['status']}")
+        else:
+            print(f"No books found matching '{search_term}'")
+
+
+    # 6. Exit 
+    elif choice == '6':
         print("Exiting Library Management System. Goodbye!")
         break
     
     
     else:
         print("Invalid choice. Please enter a number between 1 and 5.")
-
