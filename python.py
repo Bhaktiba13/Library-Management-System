@@ -1,19 +1,21 @@
 
 library ={
-    "Python Basics": {"author": "John Doe", "status": "available"},
-    "Data Science": {"author": "Jane Smith", "status": "issued"}
+    "Python": {"author": "John", "status": "available"},
+    "Data Structure": {"author": "Smith", "status": "issued"}
 }
 
 while True:
     print("\nLibrary Management System Menu:")
     print("1. Add a book")
     print("2. View all books")
-    print("3. Update book status")
-    print("4. Delete a book")
-    print("5. Search a book")
-    print("6. Exit")
+    print("3. Issue a book")
+    print("4. Return a book")
+    # print("3. Update book status")
+    print("5. Delete a book")
+    print("6. Search a book")
+    print("7. Exit")
 
-    choice = input("Enter your choice (1-5): ")
+    choice = input("Enter your choice (1-7): ")
 
     # 1. Add a book
     if choice == '1':
@@ -50,17 +52,43 @@ while True:
             #     print(title, details["author"], details["status"])
         
     # 3. Update book status
-    elif choice == '3':
-        title = input("Enter the title of the book to update: ")
-        if title in library:
-            new_status = input("Enter new status (e.g., available, issued): ")
-            library[title]["status"] = new_status
-            print(f"Status for '{title}' updated to '{new_status}'.")
-        else:
-            print(f"Error: Book '{title}' not found.")
+    # elif choice == '3':
+    #     title = input("Enter the title of the book to update: ")
+    #     if title in library:
+    #         new_status = input("Enter new status (e.g., available, issued): ")
+    #         library[title]["status"] = new_status
+    #         print(f"Status for '{title}' updated to '{new_status}'.")
+    #     else:
+    #         print(f"Error: Book '{title}' not found.")
 
-    # 4. Delete 
+
+     # 3. Issue a book
+    elif choice == '3':
+        title = input("Enter book title to issue: ")
+        if title in library:
+            if library[title]["status"] == "available":
+                library[title]["status"] = "issued"
+                print(f"Book '{title}' has been issued.")
+            else:
+                print(f"Book '{title}' is already issued.")
+        else:
+            print(f"Book '{title}' not found.")
+
+    # 4. Return a book
     elif choice == '4':
+        title = input("Enter book title to return: ")
+        if title in library:
+            if library[title]["status"] == "issued":
+                library[title]["status"] = "available"
+                print(f"Book '{title}' has been returned.")
+            else:
+                print(f"Book '{title}' was not issued.")
+        else:
+            print(f"Book '{title}' not found.")
+
+
+    # 5. Delete 
+    elif choice == '5':
         title = input("Enter the title of the book to delete: ")
         if title in library:
             del library[title]
@@ -69,8 +97,8 @@ while True:
             print(f"Error: Book '{title}' not found.")
 
 
-    # 5. Search
-    elif choice == '5':
+    # 6. Search
+    elif choice == '6':
         search_term = input("Enter search term (title or author): ").strip()
         
         search_term_lower = search_term.lower()
@@ -94,8 +122,8 @@ while True:
             print(f"No books found matching '{search_term}'")
 
 
-    # 6. Exit 
-    elif choice == '6':
+    # 7. Exit 
+    elif choice == '7':
         print("Exiting Library Management System. Goodbye!")
         break
     
