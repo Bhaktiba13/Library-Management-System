@@ -135,17 +135,27 @@
 
 # Login
 
-    users = {
-    "admin1": {"password": "admin123", "role": "admin1"},
-    "user1": {"password": "user123", "role": "user1"}
-}
+users = {}
 
-library = {
-    "Python": {"author": "John", "status": "available"},
-    "Data Structure": {"author": "Smith", "status": "issued"}
-}
+print("===== REGISTER =====")
+new_id = input("Create ID: ").strip().lower()
 
-print("===== LOGIN =====")
+if new_id in users:
+    print("User already exists!")
+else:
+    new_pass = input("Create Password: ").strip()
+    role = input("Enter Role (admin/user): ").strip().lower()
+
+    if role not in ["admin", "user"]:
+        print("Invalid role! Default set to user.")
+        role = "user"
+
+    users[new_id] = {"password": new_pass, "role": role}
+    print("Registration Successful!")
+
+
+
+print("\n===== LOGIN =====")
 user_id = input("Enter ID: ").strip().lower()
 password = input("Enter Password: ").strip()
 
@@ -156,6 +166,11 @@ if user_id in users and users[user_id]["password"] == password:
 else:
     print("Invalid ID or Password!")
     exit()
+
+    library = {
+    "Python": {"author": "John", "status": "available"},
+    "Data Structure": {"author": "Smith", "status": "issued"}
+}
 
 while True:
 
@@ -261,93 +276,6 @@ while True:
 
         else:
             print("Invalid Choice!")
-    # -------- USERS DATABASE --------
-users = {}
-
-# -------- REGISTER --------
-print("===== REGISTER =====")
-new_id = input("Create ID: ").strip().lower()
-
-if new_id in users:
-    print("User already exists!")
-else:
-    new_pass = input("Create Password: ").strip()
-    role = input("Enter Role (admin/user): ").strip().lower()
-
-    if role not in ["admin", "user"]:
-        print("Invalid role! Default set to user.")
-        role = "user"
-
-    users[new_id] = {"password": new_pass, "role": role}
-    print("Registration Successful!")
-
-# -------- LOGIN --------
-print("\n===== LOGIN =====")
-user_id = input("Enter ID: ").strip().lower()
-password = input("Enter Password: ").strip()
-
-if user_id in users and users[user_id]["password"] == password:
-    role = users[user_id]["role"]
-    print("Login Successful!")
-    print("Your Role:", role)
-else:
-    print("Invalid ID or Password!")
-    exit()
-
-# -------- SAMPLE LIBRARY --------
-library = {
-    "Python": {"author": "John", "status": "available"},
-    "Data Structure": {"author": "Smith", "status": "issued"}
-}
-
-# -------- MENU --------
-while True:
-
-    print("\n===== MENU =====")
-
-    if role == "admin":
-
-        print("1. Add Book")
-        print("2. View Books")
-        print("3. Exit")
-
-        choice = input("Enter choice: ")
-
-        if choice == '1':
-            title = input("Enter book title: ")
-            author = input("Enter author name: ")
-            library[title] = {"author": author, "status": "available"}
-            print("Book Added Successfully!")
-
-        elif choice == '2':
-            for t, d in library.items():
-                print(f"{t} - {d['author']} - {d['status']}")
-
-        elif choice == '3':
-            print("Goodbye!")
-            break
-
-        else:
-            print("Invalid Choice!")
-
-    else:
-
-        print("1. View Books")
-        print("2. Exit")
-
-        choice = input("Enter choice: ")
-
-        if choice == '1':
-            for t, d in library.items():
-                print(f"{t} - {d['author']} - {d['status']}")
-
-        elif choice == '2':
-            print("Goodbye!")
-            break
-
-        else:
-            print("Invalid Choice!")
-
-
+    
     
     
