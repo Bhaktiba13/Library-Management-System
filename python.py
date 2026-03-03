@@ -129,153 +129,189 @@
 
 
 
+# With Registeration
 
-
-
-
-# Login
 
 users = {}
-
-print("===== REGISTER =====")
-new_id = input("Create ID: ").strip().lower()
-
-if new_id in users:
-    print("User already exists!")
-else:
-    new_pass = input("Create Password: ").strip()
-    role = input("Enter Role (admin/user): ").strip().lower()
-
-    if role not in ["admin", "user"]:
-        print("Invalid role! Default set to user.")
-        role = "user"
-
-    users[new_id] = {"password": new_pass, "role": role}
-    print("Registration Successful!")
-
-
-
-print("\n===== LOGIN =====")
-user_id = input("Enter ID: ").strip().lower()
-password = input("Enter Password: ").strip()
-
-if user_id in users and users[user_id]["password"] == password:
-    role = users[user_id]["role"]
-    print("Login Successful!")
-    print("Your Role:", role)
-else:
-    print("Invalid ID or Password!")
-    exit()
-
-    library = {
+library = {
     "Python": {"author": "John", "status": "available"},
     "Data Structure": {"author": "Smith", "status": "issued"}
 }
 
+
 while True:
 
-    print("\n===== MENU =====")
+    print("\n===== MAIN MENU =====")
+    print("1. Register")
+    print("2. Login")
+    print("3. Exit")
 
-    if role == "admin":
+    main_choice = input("Enter choice: ")
 
-        print("1. Add Book")
-        print("2. View Books")
-        print("3. Issue Book")
-        print("4. Return Book")
-        print("5. Delete Book")
-        print("6. Search Book")
-        print("7. Exit")
+    # ---------------- REGISTER ----------------
+    if main_choice == '1':
 
-        choice = input("Enter choice: ")
+        new_id = input("Create ID: ").strip().lower()
 
-        if choice == '1':
-            title = input("Enter book title: ")
-            author = input("Enter author name: ")
-            library[title] = {"author": author, "status": "available"}
-            print("Book Added Successfully!")
+        if new_id in users:
+            print("User already exists!")
+        else:
+            new_pass = input("Create Password: ").strip()
+            role = input("Enter Role (admin/user): ").strip().lower()
 
-        elif choice == '2':
-            for t, d in library.items():
-                print(f"{t} - {d['author']} - {d['status']}")
+            if role not in ["admin", "user"]:
+                print("Invalid role! Default set to user.")
+                role = "user"
 
-        elif choice == '3':
-            title = input("Enter book to issue: ")
-            if title in library and library[title]["status"] == "available":
-                library[title]["status"] = "issued"
-                print("Book Issued!")
-            else:
-                print("Book Not Available!")
+            users[new_id] = {"password": new_pass, "role": role}
+            print("Registration Successful!")
 
-        elif choice == '4':
-            title = input("Enter book to return: ")
-            if title in library and library[title]["status"] == "issued":
-                library[title]["status"] = "available"
-                print("Book Returned!")
-            else:
-                print("Invalid Book!")
+    # ---------------- LOGIN ----------------
+    elif main_choice == '2':
 
-        elif choice == '5':
-            title = input("Enter book to delete: ")
-            if title in library:
-                del library[title]
-                print("Book Deleted!")
+        user_id = input("Enter ID: ").strip().lower()
+        password = input("Enter Password: ").strip()
 
-        elif choice == '6':
-            search = input("Search title/author: ").lower()
-            for t, d in library.items():
-                if search in t.lower() or search in d["author"].lower():
-                    print(f"{t} - {d['author']} - {d['status']}")
+        if user_id in users and users[user_id]["password"] == password:
+            role = users[user_id]["role"]
+            print(" Login Successful!")
+            print("Your Role:", role)
 
-        elif choice == '7':
-            print("Goodbye!")
-            break
+            # ---------------- AFTER LOGIN MENU ----------------
+            while True:
+
+                print("\n===== LIBRARY MENU =====")
+
+                # ---------- ADMIN MENU ----------
+                if role == "admin":
+
+                    print("1. Add Book")
+                    print("2. View Books")
+                    print("3. Issue Book")
+                    print("4. Return Book")
+                    print("5. Delete Book")
+                    print("6. Search Book")
+                    print("7. Logout")
+
+                    choice = input("Enter choice: ")
+
+                    if choice == '1':
+                        title = input("Enter book title: ").strip()
+                        author = input("Enter author name: ").strip()
+
+                        if title in library:
+                            print("Book already exists!")
+                        else:
+                            library[title] = {"author": author, "status": "available"}
+                            print("Book Added Successfully!")
+
+                    elif choice == '2':
+                        if not library:
+                            print("Library is empty.")
+                        else:
+                            print("\nTitle - Author - Status")
+                            for t, d in library.items():
+                                print(f"{t} - {d['author']} - {d['status']}")
+
+                    elif choice == '3':
+                        title = input("Enter book to issue: ")
+                        if title in library and library[title]["status"] == "available":
+                            library[title]["status"] = "issued"
+                            print("Book Issued!")
+                        else:
+                            print("Book Not Available!")
+
+                    elif choice == '4':
+                        title = input("Enter book to return: ")
+                        if title in library and library[title]["status"] == "issued":
+                            library[title]["status"] = "available"
+                            print("Book Returned!")
+                        else:
+                            print("Invalid Book!")
+
+                    elif choice == '5':
+                        title = input("Enter book to delete: ")
+                        if title in library:
+                            del library[title]
+                            print("Book Deleted!")
+                        else:
+                            print("Book Not Found!")
+
+                    elif choice == '6':
+                        search = input("Search title/author: ").lower()
+                        found = False
+                        for t, d in library.items():
+                            if search in t.lower() or search in d["author"].lower():
+                                print(f"{t} - {d['author']} - {d['status']}")
+                                found = True
+                        if not found:
+                            print("No matching books found!")
+
+                    elif choice == '7':
+                        print(" Logged Out Successfully!")
+                        break
+
+                    else:
+                        print("Invalid Choice!")
+
+                # ---------- USER MENU ----------
+                else:
+
+                    print("1. View Books")
+                    print("2. Issue Book")
+                    print("3. Return Book")
+                    print("4. Search Book")
+                    print("5. Logout")
+
+                    choice = input("Enter choice: ")
+
+                    if choice == '1':
+                        for t, d in library.items():
+                            print(f"{t} - {d['author']} - {d['status']}")
+
+                    elif choice == '2':
+                        title = input("Enter book to issue: ")
+                        if title in library and library[title]["status"] == "available":
+                            library[title]["status"] = "issued"
+                            print("Book Issued!")
+                        else:
+                            print("Not Available!")
+
+                    elif choice == '3':
+                        title = input("Enter book to return: ")
+                        if title in library and library[title]["status"] == "issued":
+                            library[title]["status"] = "available"
+                            print("Book Returned!")
+                        else:
+                            print("Invalid Book!")
+
+                    elif choice == '4':
+                        search = input("Search title/author: ").lower()
+                        found = False
+                        for t, d in library.items():
+                            if search in t.lower() or search in d["author"].lower():
+                                print(f"{t} - {d['author']} - {d['status']}")
+                                found = True
+                        if not found:
+                            print("No matching books found!")
+
+                    elif choice == '5':
+                        print(" Logged Out Successfully!")
+                        break
+
+                    else:
+                        print("Invalid Choice!")
 
         else:
-            print("Invalid Choice!")
+            print(" Invalid ID or Password!")
 
-    # ---------------- USER MENU ----------------
+    # ---------------- EXIT ----------------
+    elif main_choice == '3':
+        print(" Thank You! Exiting System...")
+        break
+
     else:
-
-        print("1. View Books")
-        print("2. Issue Book")
-        print("3. Return Book")
-        print("4. Search Book")
-        print("5. Exit")
-
-        choice = input("Enter choice: ")
-
-        if choice == '1':
-            for t, d in library.items():
-                print(f"{t} - {d['author']} - {d['status']}")
-
-        elif choice == '2':
-            title = input("Enter book to issue: ")
-            if title in library and library[title]["status"] == "available":
-                library[title]["status"] = "issued"
-                print("Book Issued!")
-            else:
-                print("Not Available!")
-
-        elif choice == '3':
-            title = input("Enter book to return: ")
-            if title in library and library[title]["status"] == "issued":
-                library[title]["status"] = "available"
-                print("Book Returned!")
-            else:
-                print("Invalid Book!")
-
-        elif choice == '4':
-            search = input("Search title/author: ").lower()
-            for t, d in library.items():
-                if search in t.lower() or search in d["author"].lower():
-                    print(f"{t} - {d['author']} - {d['status']}")
-
-        elif choice == '5':
-            print("Goodbye!")
-            break
-
-        else:
-            print("Invalid Choice!")
+        print("Invalid Choice!")
     
     
     
